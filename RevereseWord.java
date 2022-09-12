@@ -21,6 +21,8 @@ public class RevereseWord{
             temp=str[start];
             str[start]=str[end];
             str[end]=temp;
+            start++;
+            end--;
          }
      }
 } 
