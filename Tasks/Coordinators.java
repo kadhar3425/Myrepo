@@ -14,20 +14,18 @@ public class Coordinators{
   public static void Greater(int arr[],int start,int end){
          int max=0;
          int index=0;
-         while(start<=end){
-            if(max<arr[start]){
-              max=arr[start];
-              index=start;
-             }
-          start++;
-         }
+         for(;start<=end;start++){
+             if(max<arr[start]){
+                 max=arr[start];
+                 index=start;
+              }
+          }
          System.out.print(max+" ");
          max=0;
          index++;
-         while(index<=end){
-           if(max<arr[index])
-             max=arr[index];
-        index++;
+        for(;index<=end;index++){
+            if(max<arr[index])
+                max=arr[index];
         }
         if(max!=0)
           System.out.print(max);
