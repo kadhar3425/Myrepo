@@ -1,8 +1,12 @@
+package Dungeon;
+
 import java.util.*;
 
 public class Dungeon{
 	public static void main(String[] args)throws Exception{
-		 Module1.GetInput();
+//		 Module1.GetInput();
+//		Module2.GetInput();
+		Module3.GetInput();
     }
 }
 class Module1{
@@ -44,7 +48,8 @@ class Module1{
 		ArrayList<Integer> ans=new ArrayList<>();
 		int count=0;
 		solve(ar-1,ac-1,dun,r,c,gr-1,gc-1,ans,vis,di,dj,count);
-		System.out.print(ans);
+		System.out.print("minimum shortest path is: "+Collections.min(ans));
+	    
 	}
 	public static void solve(int ar,int ac,String dun[][],int r,int c,int gr,int gc,ArrayList<Integer> ans,int vis[][],int di[],int dj[],int count){
 		if(ar==gr&&ac==gc){
@@ -56,11 +61,199 @@ class Module1{
 			int nextj=ac+dj[ind];
 			if(nexti>=0&&nextj>=0&&nexti<r&&nextj<c&&vis[nexti][nextj]==0){
 				   vis[ar][ac]=1;
-				   count++;
+				   ++count;
 				   solve(nexti,nextj,dun,r,c,gr,gc,ans,vis,di,dj,count);
-				   count--;
+				   --count;
 				   vis[ar][ac]=0;
 			}
 		}
 	}
+}
+class Module2 {
+   	public static void GetInput() throws Exception{
+   		Scanner s=new Scanner(System.in);
+		System.out.println("Enter the row and column: ");
+		int r=s.nextInt();
+		int c=s.nextInt();
+		String dun[][]=new String[r][c];
+		for(int i=0;i<r;i++){
+			for(int j=0;j<c;j++)
+				dun[i][j]="-";
+		}
+		System.out.println("Enter the Adventurer locations: ");
+		int ar=s.nextInt();
+		int ac=s.nextInt();
+		System.out.println("Enter the Monster locations: ");
+		int mr=s.nextInt();
+		int mc=s.nextInt();
+		System.out.println("Enter the Gold locations: ");
+		int gr=s.nextInt();
+		int gc=s.nextInt();
+		dun[ar-1][ac-1]="A";
+		dun[mr-1][mc-1]="M";
+		dun[gr-1][gc-1]="G";
+		for(int i=0;i<r;i++){
+			for(int j=0;j<c;j++){
+				System.out.print(dun[i][j]+" ");
+			}
+			System.out.println();
+		}
+	    findPath(dun,r,c,ar,ac,mr,mc,gr,gc);   
+   	}
+   	public static void findPath(String dun[][],int r,int c,int ar,int ac,int mr,int mc,int gr,int gc) throws Exception{
+		int vis[][]=new int[r][c];
+		for(int i=0;i<r;i++){
+			for(int j=0;j<c;j++){
+				vis[i][j]=0;
+			}
+		}
+		int di[]={+1,0,0,-1};
+		int dj[]={0,-1,1,0};
+		ArrayList<Integer> ans=new ArrayList<>();
+		int count=0;
+		solve(ar-1,ac-1,dun,r,c,gr-1,gc-1,ans,vis,di,dj,count);
+		int adv=Collections.min(ans);
+		ans=new ArrayList<Integer>();
+		monssolve(mr-1,mc-1,dun,r,c,gr-1,gc-1,ans,vis,di,dj,count);
+		int mons=Collections.min(ans);
+		if(adv==mons||adv<mons)
+		System.out.print("minimum shortest path is: "+adv);
+		else
+		System.out.print("There is no possible");
+	}
+   	public static void solve(int ar,int ac,String dun[][],int r,int c,int gr,int gc,ArrayList<Integer> ans,int vis[][],int di[],int dj[],int count){
+		if(ar==gr&&ac==gc){
+			ans.add(count);
+			return;
+		}
+		for(int ind=0;ind<4;ind++){
+			int nexti =ar+di[ind];
+			int nextj=ac+dj[ind];
+			if(nexti>=0&&nextj>=0&&nexti<r&&nextj<c&&vis[nexti][nextj]==0&&dun[nexti][nextj]!="M"){
+				   vis[nexti][nextj]=1;
+				   ++count;
+				   solve(nexti,nextj,dun,r,c,gr,gc,ans,vis,di,dj,count);
+				   --count;
+				   vis[nexti][nextj]=0;
+			}
+		}
+	}
+   	public static void monssolve(int ar,int ac,String dun[][],int r,int c,int gr,int gc,ArrayList<Integer> ans,int vis[][],int di[],int dj[],int count){
+		if(ar==gr&&ac==gc){
+			ans.add(count);
+			return;
+		}
+		for(int ind=0;ind<4;ind++){
+			int nexti =ar+di[ind];
+			int nextj=ac+dj[ind];
+			if(nexti>=0&&nextj>=0&&nexti<r&&nextj<c&&vis[nexti][nextj]==0&&dun[nexti][nextj]!="A"){
+				   vis[nexti][nextj]=1;
+				   ++count;
+				   solve(nexti,nextj,dun,r,c,gr,gc,ans,vis,di,dj,count);
+				   --count;
+				   vis[nexti][nextj]=0;
+			}
+		}
+	}
+}
+class Module3{
+	public static void GetInput() throws Exception{
+   		Scanner s=new Scanner(System.in);
+		System.out.println("Enter the row and column: ");
+		int r=s.nextInt();
+		int c=s.nextInt();
+		String dun[][]=new String[r][c];
+		for(int i=0;i<r;i++){
+			for(int j=0;j<c;j++)
+				dun[i][j]="-";
+		}
+		System.out.println("Enter the Adventurer locations: ");
+		int ar=s.nextInt();
+		int ac=s.nextInt();
+		System.out.println("Enter the Monster locations: ");
+		int mr=s.nextInt();
+		int mc=s.nextInt();
+		System.out.println("Enter the Gold locations: ");
+		int gr=s.nextInt();
+		int gc=s.nextInt();
+		dun[ar-1][ac-1]="A";
+		dun[mr-1][mc-1]="M";
+		dun[gr-1][gc-1]="G";
+		for(int i=0;i<r;i++){
+			for(int j=0;j<c;j++){
+				System.out.print(dun[i][j]+" ");
+			}
+			System.out.println();
+		}
+	    findPath(dun,r,c,ar,ac,mr,mc,gr,gc);   
+   	}
+   	public static void findPath(String dun[][],int r,int c,int ar,int ac,int mr,int mc,int gr,int gc) throws Exception{
+		int vis[][]=new int[r][c];
+		for(int i=0;i<r;i++){
+			for(int j=0;j<c;j++){
+				vis[i][j]=0;
+			}
+		}
+		int di[]={+1,0,0,-1};
+		int dj[]={0,-1,1,0};
+		ArrayList<Integer> ans=new ArrayList<>();
+		ans.add(100);
+		String p="("+(ar)+","+(ac)+")";
+		ArrayList<String> path=new ArrayList<String>(); 
+		int count=0;
+		solve(ar-1,ac-1,dun,r,c,gr-1,gc-1,ans,p,path,vis,di,dj,count);
+		int adv=Collections.min(ans);
+		ans=new ArrayList<Integer>();
+		monssolve(mr-1,mc-1,dun,r,c,gr-1,gc-1,ans,vis,di,dj,count);
+		int mons=Collections.min(ans);
+		if(adv==mons||adv<mons) {
+		System.out.print("minimum shortest path is: "+adv);
+		System.out.println("Path"+Collections.min(path));
+		}
+		else
+		System.out.print("There is no possible");
+	}
+   	public static void solve(int ar,int ac,String dun[][],int r,int c,int gr,int gc,ArrayList<Integer> ans,String p,ArrayList<String> path,int vis[][],int di[],int dj[],int count){
+		if(ar==gr&&ac==gc&&Collections.min(ans)>=count){
+			ans.add(count);
+			path.add(p);
+			return;
+		}
+		for(int ind=0;ind<4;ind++){
+			int nexti =ar+di[ind];
+			int nextj=ac+dj[ind];
+			String temp=p;
+			p+="("+(nexti+1)+","+(nextj+1)+")";
+			if(nexti>=0&&nextj>=0&&nexti<r&&nextj<c&&vis[nexti][nextj]==0&&dun[nexti][nextj]!="M"){
+				   vis[nexti][nextj]=1;
+				   dun[nexti][nextj]="*";
+				   ++count;
+				   solve(nexti,nextj,dun,r,c,gr,gc,ans,p,path,vis,di,dj,count);
+				   --count;
+				   vis[nexti][nextj]=0;
+				   dun[nexti][nextj]="-";
+				   p=temp;
+				   
+			}
+			else
+				p=temp;
+		}
+	}
+   	public static void monssolve(int ar,int ac,String dun[][],int r,int c,int gr,int gc,ArrayList<Integer> ans,int vis[][],int di[],int dj[],int count){
+		if(ar==gr&&ac==gc){
+			ans.add(count);
+			return;
+		}
+		for(int ind=0;ind<4;ind++){
+			int nexti =ar+di[ind];
+			int nextj=ac+dj[ind];
+			if(nexti>=0&&nextj>=0&&nexti<r&&nextj<c&&vis[nexti][nextj]==0&&dun[nexti][nextj]!="A"){
+				   vis[nexti][nextj]=1;
+				   count++;		   
+				   monssolve(nexti,nextj,dun,r,c,gr,gc,ans,vis,di,dj,count);
+				   count--;
+				   vis[nexti][nextj]=0;
+			}
+		}
+	}	
 }
